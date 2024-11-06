@@ -5,6 +5,7 @@ USER root
 # Add custom plugin to the image
 COPY ./custom_plugin /usr/local/share/lua/5.1/kong/plugins
 COPY ./proto /usr/local/kong/include
+COPY kong.conf /etc/kong/kong.conf
 
 ENV KONG_PLUGINS=bundled,jwt-claim-to-header
 ENV KONG_LUA_PACKAGE_PATH=/plugins/?.lua
