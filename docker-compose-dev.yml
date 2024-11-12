@@ -23,7 +23,7 @@ services:
       - kong-net
     
   kong-migration:
-    image: kong:3.6
+    image: custom-gateway:1.0
     container_name: kong-migration
     environment:
       KONG_DATABASE: postgres
@@ -37,7 +37,8 @@ services:
     command: kong migrations bootstrap
   
   kong:
-    image: kong:3.6
+    image: custom-gateway:1.0
+    build: .
     container_name: kong
     restart: on-failure
     environment:
@@ -52,6 +53,8 @@ services:
       KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
       KONG_PROXY_LISTEN: 0.0.0.0:8000, 0.0.0.0:9080 http2, 0.0.0.0:9081 http2 ssl
       KONG_ADMIN_GUI_LISTEN: 0.0.0.0:8002
+    volumes:
+      - ./kong.conf:/etc/kong/kong.conf
     networks:
       - kong-net
     depends_on:
